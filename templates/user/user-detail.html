@@ -1,0 +1,151 @@
+{{ template "layout/header.html" .}}
+<link href="/assets/css/userdetail.css" rel="stylesheet" />
+</head>
+{{ template "layout/menu.html" .}}
+
+<body style=" background-color: #f4f7fa;">
+  <div style="display: none;">
+    <p id="userID">{{.infoUser.UserID}}</p>
+  </div>
+  <!-- Body-->
+  <div class="container ">
+    <div class="row">
+      <div class="col">
+        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+          <img class="rounded-circle mt-5" src="{{.infoUser.ImageUrl}}" id="avatar" value="{{.infoUser.ImageID}}"
+            width="75px" height="75px" />
+          <span class="font-weight-bold">{{.infoUser.FullName}}</span><span class="text-black-50">Email:
+            {{.infoUser.Email}}</span><span>Birthday: {{.infoUser.Birthday}}</span>
+        </div>
+        <div class="text-center">
+          <button class="btn btn-primary text-center" type="button" data-toggle="collapse"
+            data-target="#multiCollapseEdit" aria-expanded="false" aria-controls="multiCollapseEdit">
+            Edit your profile</button>
+          <a class="btn btn-secondary text-center" type="button" href="/user/changepass">
+            Change password</a>
+        </div>
+        <hr />
+        <div class="d-flex flex-row mt-3 exp-container">
+          <div class="work-experience ml-1">
+            <span class="d-block text-black-50 labels"><a href="https://{{.infoUser.Facebook}}">Facebook</a></span>
+            <span class="d-block text-black-50 labels">Phone: {{.infoUser.Phone}}</span>
+            <span class="d-block text-black-50 labels">Branch: {{.infoUser.Branch}}</span>
+            <span class="d-block text-black-50 labels">Department : {{.infoUser.Department}}</span>
+            <span class="d-block text-black-50 labels">Position : {{.infoUser.Position}}</span>
+          </div>
+        </div>
+        <hr />
+        <div style="width: 400px;">
+          <h4>Description</h4>
+          <div class="block-ellipsis">
+            <i style="font-weight: bold;">{{.infoUser.Description}}</i>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <!-- edit -->
+        <div class="collapse multi-collapse" id="multiCollapseEdit">
+          <div class="card card-body">
+            <div class="row- md">
+              <div class="d-flex justify-content-between align-items-center mb-">
+                <h6 class="text-right">Edit your profile</h6>
+              </div>
+              <div class="container">
+                <form action="/user/edit" method="POST" id="editProfile" enctype="multipart/form-data">
+                  <div class="col-md-12 text-center">
+                    <div class="image-upload" onchange="previewFile()">
+                      <label for="file-input">
+                        <img class="rounded-circle mt-5" src="{{.infoUser.ImageUrl}}" id="imageTemp"
+                          value="{{.infoUser.ImageID}}" width="75" height="75" style="object-fit: cover;" />
+                      </label>
+                      <input id="file-input" type="file" style="display: none;" accept="image/png, image/jpeg" />
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="labels">User Name (<i class="fas fa-asterisk"
+                        style="font-size: 10px;"></i>)</label><input type="text" class="form-control" id="fullname"
+                      placeholder="Full name" value="{{.infoUser.FullName}}" />
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="labels">Date of Birth</label>
+                    <input type="date" class="form-control" placeholder="Date of Birth" value="{{.infoUser.Birthday}}"
+                      id="birthday" />
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="labels">Branch (<i class="fas fa-asterisk" style="font-size: 10px;"></i>)</label>
+                    <select class="form-control" id="branch-select">
+                      <option id="branch-position" selected disabled hidden>{{.infoUser.Branch}}</option>
+                      {{range $a := .branch}}
+                      <option value="{{$a.ID}}">{{$a.Name}}</option>
+                      {{end}}
+                    </select>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="labels">Department (<i class="fas fa-asterisk" style="font-size: 10px;"></i>)</label>
+                    <select class="form-control" id="department-select">
+                      <option id="choose-department" selected disabled hidden>{{.infoUser.Department}}</option>
+                      {{range $a := .departments}}
+                      <option value="{{$a.ID}}">{{$a.Name}}</option>
+                      {{end}}
+                    </select>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="labels">Position (<i class="fas fa-asterisk" style="font-size: 10px;"></i>)</label>
+                    <select class="form-control" id="position-select">
+                      <option id="choose-position" selected disabled hidden>{{.infoUser.Position}}</option>
+                      {{range $a := .position}}
+                      <option value="{{$a.ID}}">{{$a.Name}}</option>
+                      {{end}}
+                    </select>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="labels">Phone Number</label><input type="text" id="phone-number" class="form-control"
+                      placeholder="Phone Number" value="{{.infoUser.Phone}}" />
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="labels">Facebook</label><input type="text" id="link-fb" class="form-control"
+                      placeholder="Facebook" value="{{.infoUser.Facebook}}" />
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="labels">Description</label>
+                    <textarea type="text" class="form-control" id="description"
+                      placeholder="Description">{{.infoUser.Description}}</textarea>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="labels">Email (<i class="fas fa-asterisk" style="font-size: 10px;"></i>)</label><input
+                      type="email" id="Email" class="form-control" placeholder="Email" value="{{.infoUser.Email}}" />
+                  </div>
+                  <div class="col-md-12 mt-3">
+
+                    <div class="alert alert-danger" id="danger-edit-alert">
+                      <strong> <b id="danger-edit"></b> </strong>
+                    </div>
+                    <div class="alert alert-success" id="success-edit-alert">
+                      <strong><b id="succes-edit"></b></strong>
+                    </div>
+
+                  </div>
+                  <div class="mt-5 text-center">
+                    <button class="btn btn-danger profile-button" type="button" data-toggle="collapse"
+                      data-target="#multiCollapseEdit" aria-expanded="false" aria-controls="multiCollapseEdit">
+                      Cancel
+                    </button>
+                    <button class="btn btn-primary profile-button" type="submit">
+                      Save Profile
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="height:75px;"></div>
+</body>
+{{ template "layout/footer.html"}}
+<script src="/assets/js/userdetail.js"></script>
+
+</html>

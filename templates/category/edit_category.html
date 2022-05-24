@@ -1,0 +1,65 @@
+
+  {{ template "layout/header.html" .}}
+    </head>
+    {{ template "layout/menu.html" .}}
+
+<body style=" background-color: #f4f7fa;">
+  
+  <div style="height:100px;"></div>
+  <div class="container">
+        <div class="scrollmenu">    
+            <a href="/category/s">All</a><i class="fas fa-grip-lines-vertical"></i>
+            <a href="/category/add">Create category</a>
+            <!-- <a href="#news">CREATE CATEGORY</a> -->
+        </div>
+        <h3 class="text-center">Edit category</h3>
+    <br/>
+    <form method="post" action="/category/update/{{.CategoryID}}" id="categoryForm">
+      {{range .category }}
+        <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">Name category (<i class="fas fa-asterisk" style="font-size: 10px;"></i>)</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="category" placeholder="name category" name="name" value="{{.CategoryName}}"/> 
+        </div>
+        </div>
+        
+        <div class="form-group row">
+          <label for="" class="col-sm-2 col-form-label">Description (<i class="fas fa-asterisk" style="font-size: 10px;"></i>)</label>
+          <div class="col-sm-10">
+              <textarea class="form-control" placeholder="description!" name="description"id="description" >{{.Description}}</textarea>
+          </div>
+          </div>
+          {{end}}
+        <div class="form-group row">
+        <div class="col-sm-2">Menu (<i class="fas fa-asterisk" style="font-size: 10px;"></i>)</div>
+        <div class="col-sm-10">
+            <select class="custom-select my-1 mr-sm-2" id="menu" name="menu">
+              <option value="{{.MenuID}}"selected>{{.menuName}}</option>
+              {{range .menus }}
+              <option value="{{.ID}}" name="menuID">{{.Name}}</option>
+              {{end}}
+              </select>
+        </div>
+        </div> 
+       
+        <div class="form-group row">
+        <div class="col-sm-12 text-center">
+            <a type="button" class="btn btn-danger" href="/category/s">Cancel</a>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+        </div>
+        <div class="text-center">
+          <div class="alert alert-danger" id="danger-create-alert">
+            <strong> <b style="word-wrap:break-word;" id="danger-create"></b> </strong>
+          </div>
+          <div class="alert alert-success" id="success-create-alert">
+            <strong><b style="word-wrap:break-word;" id="succes-create"></b></strong>
+          </div>
+        </div>
+    </form>
+  </div>
+  <div style="height:170px;"></div>
+</body>
+{{ template "layout/footer.html" }}
+<script src="/assets/js/createCategory.js"></script>
+</html>

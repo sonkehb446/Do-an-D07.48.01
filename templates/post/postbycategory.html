@@ -1,0 +1,87 @@
+{{ template "layout/header.html" .}}
+<link href="/assets/css/home.css" rel="stylesheet" />
+</head>
+{{ template "layout/menu.html" .}}
+
+<body style=" background-color: #f4f7fa;">
+    <div style="height: 80px;"></div>
+    <div class="container">
+        <h1 id="hynews" class="mt-3">{{.title}}</h1>
+        {{range $value := .posts}}
+        <div class="row ">
+            <div class="col-lg-6">
+                <!-- Blog post-->
+                <div class="card mb-4 ">
+                    <a href="./{{$value.PostID}}"><img class="card-img-top  border border-dark"
+                            src="{{$value.ImageUrl}}" style="object-fit: cover; width: 100%; height: 290px;" /></a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card-body ">
+                    <div class="small" style="color: blue;">{{FormatTime $value.Created_at}}</div>
+                    <div class="block-text">
+                        <h5 class="block">{{$value.Title}}</h5>
+                    </div>
+                    <div style="width: 300px;" class="mt-3">
+                        <div class="block-ellipsis">
+                            <p>{{$value.Description}}</p>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary mt-2" href="./{{$value.PostID}}">Read more →</a>
+                </div>
+            </div>
+            </hr>
+        </div>
+        {{end}}
+    </div>
+    <nav aria-label="Pagination">
+        <hr class="my-0" />
+        {{ $search := .pageInfo.PostCategory}}
+        {{$check := false}}
+        {{$url := .url}}
+        <ul class="pagination justify-content-center my-4">
+            {{if gt .pageInfo.CurrentPage 5}}
+            <li><a class="page-link" href="?id={{$search.ID}}&category={{$search.Name}}&page=1">1</a>
+            </li>
+            {{$check = true}}
+            <li class="page-item disabled">
+                <a class="page-link">...</a>
+            </li>
+            {{end}}
+            {{if lt .pageInfo.CurrentPage 5}} {{$check = false}} {{end}}
+            {{range .pageInfo.CPMI}}
+            {{if and (ge . 5) (eq $check true)}}
+            <li class="page-item"><a class="page-link" href="?id={{$search.ID}}&category={{$search.Name}}&page={{.}}">{{.}}</a>
+            </li>
+            {{else}}
+            {{if and (eq $check false) (gt . 0)}}
+            <li class="page-item"><a class="page-link" href="?id={{$search.ID}}&category={{$search.Name}}&page={{.}}">{{.}}</a>
+            </li>
+            {{end}}
+            {{end}}
+            {{end}}
+            {{if gt $.pageInfo.TotalPage 1 }}
+            <li class="page-item"><a class="page-link">{{.pageInfo.CurrentPage}}</a>
+            </li>
+            {{end}}
+            {{ range .pageInfo.CPAJ}}
+            {{if le . $.pageInfo.TotalPage}}
+            <li class="page-item"><a class="page-link" href="?id={{$search.ID}}&category={{$search.Name}}&page={{.}}">{{.}}</a>
+            </li>
+            {{end}}
+            {{end}}
+            {{if lt .pageInfo.CurrentPage .pageInfo.TPM5}}
+            <li class="page-item disabled">
+                <a class="page-link">...</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="?id={{$search.ID}}&category={{$search.Name}}&page={{.pageInfo.TotalPage}}">{{.pageInfo.TotalPage}}</a>
+            </li>
+            </li>
+            {{end}}
+        </ul>
+    </nav>
+    <div style="height: 100px;"></div>
+</body>
+{{ template "layout/footer.html" .}}
+
+</html>

@@ -1,0 +1,56 @@
+{{ define "layout/menu.html" }}
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a href="/home"><img class="navbar-brand"
+                             src="https://jobs.hybrid-technologies.vn/wp-content/themes/jobs_v3/frontend/images/logo-hybrid-technologies.svg"/></a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home">HOME <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/post/hybrid/hynews">HYNEWS</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/post/hybrid/hybriders">HYBRIDERS</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/post/hybrid/hylearning">HYLEARNING</a>
+                </li>
+            </ul>
+            <div class="my-2 my-lg-0 navbar-nav">
+                <p id="hind_bnt_login" style="Display: none">{{.user}}</p>
+                <a class="nav-link" href="/login" id="bnt_login_menu">LOGIN</a>
+                <li class="nav-item dropdown">
+                    <div class="row">
+                        <a class="nav-link" id="img-avatar" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <img src="{{.user.Avatar}}" width="50px" height="50px" class="rounded-circle"/>
+                            <span style="color:white;padding-top: 20px;">{{.user.Name}}</span>
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="img-avatar">
+                            <div class="text-center">
+                                <a class="btn-primaty" href="/user/detail">
+                                    Edit profile
+                                </a>
+                            </div>
+                            <p id="role_user" style="Display: none">{{.user.Role}}</p>
+                            <a class="dropdown-item" href="/post/s"> Post</a>
+                            <a class="dropdown-item" id="hint_User" href="/user/s"> User</a>
+                            <a class="dropdown-item" id="hint_Category" href="/category/s"> Category</a>
+                            <a class="dropdown-item" id="hint_Sub" href="/subCategory/s">Sub category</a>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div style="height: 20px;"></div>
+
+
+{{ end }}

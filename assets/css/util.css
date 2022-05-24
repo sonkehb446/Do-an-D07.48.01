@@ -1,0 +1,25 @@
+
+div.scrollmenu {
+    background-color: #bee5eb;
+    overflow: auto;
+    white-space: nowrap;
+    /* text-align: center; */
+  }
+   
+  div.scrollmenu a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+  }
+  
+  div.scrollmenu a:hover {
+    background-color: #000000;
+    color: white;
+  }
+
+  .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #c6c8ca;
+  }
+  /* tr:hover {background-color: yellow;} */

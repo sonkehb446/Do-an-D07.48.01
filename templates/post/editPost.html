@@ -1,0 +1,124 @@
+{{ template "layout/header.html" .}}
+<style type="text/css">
+    .image-upload>input {
+        display: none;
+    }
+
+    .image-upload img {
+        width: 80px;
+        cursor: pointer;
+    }
+
+    #area {
+        height: 700px;
+    }
+</style>
+</head>
+{{ template "layout/menu.html" .}}
+
+<body style=" background-color: #f4f7fa;">
+    <div class="container p-5">
+        <div class="scrollmenu mt-5 text-left">
+            <a href="/post/s/">All</a>
+        </div>
+        <br />
+        <div>
+            <h3 class="text-center">Edit Post</h3>
+            <form id="Editpost" action="/post/edit/{{.tempPost.PostID}}" method="post" onsubmit="return validateForm()"
+                enctype="multipart/form-data">
+                <div class="form-group row">
+                    <div class="col-sm-2 col-form-label mr-3">Category (<i class="fas fa-asterisk" style="font-size: 10px;"></i>):</div>
+                    <div class="col-sm-9">
+                        <select class="custom-select my-1 mr-sm-2" id="category" name="categories">
+                            <option value="{{.tempCategory.ID}}" selected>{{.tempCategory.CategoryName}}</option>
+                            {{range .category }}
+                            <option value="{{.ID}}">{{.CategoryName}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2 col-form-label mr-3">Sub category (<i class="fas fa-asterisk" style="font-size: 10px;"></i>):</div>
+                    <div class="col-sm-9">
+                        <select class="custom-select my-1 mr-sm-2" id="subCategory" name="SubCategories">
+                            <option value="{{.tempSCategory.ID}}" selected>{{.tempSCategory.CategoryName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-sm-2 col-form-label mr-3">Title (<i class="fas fa-asterisk" style="font-size: 10px;"></i>):</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="title" placeholder="TITLE!" name=title
+                            value="{{.tempPost.Title}}" minlength="6" maxlength="255">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-sm-2 col-form-label mr-3">Description (<i class="fas fa-asterisk" style="font-size: 10px;"></i>):</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="description" placeholder="DESCRIPTION!"
+                            name="description" value="{{.tempPost.Description}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-sm-2 col-form-label mr-4">Image (<i class="fas fa-asterisk" style="font-size: 10px;"></i>):</label>
+                    <div class="image-upload" onchange="previewFile()">
+                        <label for="file-input">
+                            <img src="{{.tempPost.ImageUrl}}" id="imageUpload" value="{{.infoUser.ImageID}}"
+                                style="width: 200px;height: 200px; object-fit: cover;" />
+                        </label>
+                        <input id="file-input" type="file" style="display: none;" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-sm-2 col-form-label">Content (<i class="fas fa-asterisk" style="font-size: 10px;"></i>):</label>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div id="area" style="height:700px">
+                            <textarea name="context" id="DSC"
+                                class="materialize-textarea">{{.tempPost.Content}}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div class="alert alert-danger" id="danger-create-alert">
+                        <strong> <b style="word-wrap:break-word;" id="danger-create"></b> </strong>
+                    </div>
+                    <div class="alert alert-success" id="success-create-alert">
+                        <strong><b style="word-wrap:break-word;" id="succes-create"></b></strong>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <div class="col-sm-12 text-center">
+                        <a href="/post/s/" class="btn btn-danger">Cancel</a>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+{{ template "layout/footer.html"}}
+<script src="/assets/js/editPost.js"></script>
+<script src="https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace(document.getElementById('DSC'), {
+        filebrowserUploadUrl: '/image/uploader/upload',
+        filebrowserImageUploadUrl: '/image/uploader/upload?type=Images',
+        filebrowserUploadMethod: 'form',
+        filebrowserWindowWidth: '640',
+        filebrowserWindowHeight: '1000',
+        on: {
+            // maximize the editor on startup
+            'instanceReady': function (evt) {
+                evt.editor.resize("100%", $("#area").height());
+            }
+        }
+    })
+</script>
+
+</html>

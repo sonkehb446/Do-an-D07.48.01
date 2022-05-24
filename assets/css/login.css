@@ -1,0 +1,47 @@
+@import url(https://fonts.googleapis.com/css?family=Khula:700);
+
+body,html {
+    height: 100%;
+    background-color:#66CCFF;
+}
+
+
+.custom{
+    position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     width:70%;
+     padding:6rem;
+     background: rgba(225, 236, 236, 0.836);
+     box-sizing: border-box;
+     color :black;
+     box-shadow: 0 15px 25px rgba(0,0,0,.5);
+     border-radius: 10px;
+}
+
+span {
+    position: relative;
+    font-family: "Avenir Next", sans-serif;
+    font-weight: 900;
+    font-size: 64px;
+    text-transform: uppercase;
+    font-style: italic;
+    letter-spacing: 0.05em;
+    display: inline-block;
+  }
+  
+  /* We create a pseudo element and blur it using the SVG filter. We’ll grab the content from the custom HTML attribute. */
+  
+  span:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: attr(filter-content);
+  
+    filter: url(#motion-blur-filter);
+  }
+
+  svg {
+    display: none;
+  }
